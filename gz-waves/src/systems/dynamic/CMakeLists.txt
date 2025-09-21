@@ -1,6 +1,12 @@
-
-set(GZ-RENDERING_LIBRARY_DIRS
-  ${GZ-RENDERING_INCLUDE_DIRS}/../../../lib/gz-rendering-${GZ_RENDERING_VER}/engine-plugins)
+if("$ENV{GZ_VERSION}" STREQUAL "jetty")
+  set(GZ-RENDERING_LIBRARY_DIRS
+    ${GZ-RENDERING_INCLUDE_DIRS}/../../../lib
+  )
+else()
+  set(GZ-RENDERING_LIBRARY_DIRS
+    ${GZ-RENDERING_INCLUDE_DIRS}/../../../lib/gz-rendering-${GZ_RENDERING_VER}/engine-plugins
+  )
+endif()
 
 link_directories(${GZ-RENDERING_LIBRARY_DIRS})
 

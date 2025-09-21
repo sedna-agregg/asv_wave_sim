@@ -16,6 +16,9 @@ if("$ENV{GZ_VERSION}" STREQUAL "garden"
 elseif("$ENV{GZ_VERSION}" STREQUAL "ionic")
   find_package(gz-cmake4 REQUIRED)
   set(GZ_CMAKE_VER ${gz-cmake4_VERSION_MAJOR})
+elseif("$ENV{GZ_VERSION}" STREQUAL "jetty")
+  find_package(gz-cmake REQUIRED)
+  set(GZ_CMAKE_VER ${gz-cmake_VERSION_MAJOR})
 endif()
 
 #============================================================================
@@ -46,8 +49,8 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 # Find gnuplot-iostream - the header is used by the examples in test/plots
 include(Add_gnuplot-iostream)
 
-# Garden (default)
 if("$ENV{GZ_VERSION}" STREQUAL "garden" OR NOT DEFINED "ENV{GZ_VERSION}")
+# Garden (default)
 
   #--------------------------------------
   # Find gz-math
@@ -93,8 +96,8 @@ if("$ENV{GZ_VERSION}" STREQUAL "garden" OR NOT DEFINED "ENV{GZ_VERSION}")
 
   message(STATUS "Compiling against Gazebo Garden")
 
-# Harmonic
 elseif("$ENV{GZ_VERSION}" STREQUAL "harmonic")
+# Harmonic
 
   #--------------------------------------
   # Find gz-math
@@ -140,8 +143,8 @@ elseif("$ENV{GZ_VERSION}" STREQUAL "harmonic")
 
   message(STATUS "Compiling against Gazebo Harmonic")
 
-# Ionic
 elseif("$ENV{GZ_VERSION}" STREQUAL "ionic")
+# Ionic
 
   #--------------------------------------
   # Find gz-math
@@ -187,7 +190,54 @@ elseif("$ENV{GZ_VERSION}" STREQUAL "ionic")
 
   message(STATUS "Compiling against Gazebo Ionic")
 
-else()
+elseif("$ENV{GZ_VERSION}" STREQUAL "jetty")
+# Jetty
+
+  #--------------------------------------
+  # Find gz-math
+  gz_find_package(gz-math REQUIRED COMPONENTS eigen3)
+  set(GZ_MATH_VER "")
+
+  #--------------------------------------
+  # Find gz-plugin
+  gz_find_package(gz-plugin REQUIRED COMPONENTS loader register)
+  set(GZ_PLUGIN_VER "")
+
+  #--------------------------------------
+  # Find gz-common
+  gz_find_package(gz-common
+    REQUIRED COMPONENTS graphics events
+  )
+  set(GZ_COMMON_VER "")
+
+  #--------------------------------------
+  # Find gz-msgs
+  gz_find_package(gz-msgs REQUIRED)
+  set(GZ_MSGS_VER "")
+
+  #--------------------------------------
+  # Find gz-transport
+  gz_find_package(gz-transport REQUIRED)
+  set(GZ_TRANSPORT_VER "")
+
+  #--------------------------------------
+  # Find gz-rendering
+  gz_find_package(gz-rendering REQUIRED)
+  set(GZ_RENDERING_VER "")
+
+  #--------------------------------------
+  # Find gz-sim
+  gz_find_package(gz-sim REQUIRED)
+  set(GZ_SIM_VER "")
+
+  #--------------------------------------
+  # Find SDFormat
+  gz_find_package(sdformat REQUIRED)
+  set(SDF_VER "")
+
+  message(STATUS "Compiling against Gazebo Jetty")
+
+  else()
   message(FATAL_ERROR "Unsupported GZ_VERSION: $ENV{GZ_VERSION}")
 endif()
 
